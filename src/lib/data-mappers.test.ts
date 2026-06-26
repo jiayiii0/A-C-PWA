@@ -74,17 +74,24 @@ describe("Supabase row mappers", () => {
       mapInvoiceRow({
         id: "inv-400",
         invoice_number: "HA-2026-0040",
+        subtotal: 200,
+        discount: 20,
         total: 180,
-        payment_status: "partial",
+        payment_status: "unpaid",
         issued_date: "2026-06-24",
-        customers: { name: "Maya Tan" }
+        customers: { name: "Maya Tan" },
+        payments: [{ amount: "60" }, { amount: 40 }]
       })
     ).toEqual({
       id: "inv-400",
       invoiceNumber: "HA-2026-0040",
       customer: "Maya Tan",
+      subtotal: 200,
+      discount: 20,
       total: 180,
       status: "partial",
+      paidAmount: 100,
+      balanceDue: 80,
       issuedDate: "2026-06-24"
     });
   });

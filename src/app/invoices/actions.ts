@@ -2,10 +2,24 @@
 
 import { redirect } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase-server";
-import { buildInvoiceDraft, getNextInvoiceNumber } from "@/lib/invoices";
+import {
+  buildInvoiceDraft,
+  buildPaymentDraft,
+  calculateInvoicePaymentSummary,
+  getNextInvoiceNumber,
+  PaymentMethod
+} from "@/lib/invoices";
 
 function invoiceError(jobId: string, message: string): never {
   redirect(`/jobs/${jobId}?error=${encodeURIComponent(message)}`);
+}
+
+function paymentRedirect(invoiceId: string, status: "success" | "error", message: string): never {
+  redirect(`/invoices?highlight=${invoiceId}&${status}=${encodeURIComponent(message)}`);
+}
+
+function isPaymentMethod(value: FormDataEntryValue | null): value is PaymentMethod {
+  return value === "cash" || value === "bank_transfer" || value === "duitnow" || value === "tng_ewallet";
 }
 
 export async function generateInvoiceForJobAction(jobId: string, formData: FormData) {
@@ -70,4 +84,56 @@ export async function generateInvoiceForJobAction(jobId: string, formData: FormD
   }
 
   redirect(`/invoices?highlight=${invoice.id}`);
+}
+
+export async function recordPaymentForInvoiceAction(invoiceId: string, formData: FormData) {
+  const supabase = createServerSupabaseClient();
+  if (!supabase) {
+    paymentRedirect(invoiceId, "error", "Supabase is not configured yet. Add environment variables to record payments.");
+  }
+
+  const methodValue = formData.get("method");
+  if (!isPaymentMethod(methodValue)) {
+    paymentRedirect(invoiceId, "error", "Choose a valid payment method.");
+  }
+
+  let draft;
+  try {
+    draft = buildPaymentDraft({
+      invoiceId,
+      amount: String(formData.get("amount") ?? ""),
+      method: methodValue,
+      notes: String(formData.get("notes") ?? "")
+    });
+  } catch (error) {
+    paymentRedirect(invoiceId, "error", error instanceof Error ? error.message : "Payment could not be recorded.");
+  }
+
+  const { data: invoice, error: invoiceErrorResult } = await supabase
+    .from("invoices")
+    .select("id,total,payments(amount)")
+    .eq("id", invoiceId)
+    .single();
+
+  if (invoiceErrorResult || !invoice) {
+    paymentRedirect(invoiceId, "error", invoiceErrorResult?.message ?? "Invoice not found.");
+  }
+
+  const { error: insertError } = await supabase.from("payments").insert(draft);
+  if (insertError) {
+    paymentRedirect(invoiceId, "error", insertError.message);
+  }
+
+  const existingPayments = Array.isArray(invoice.payments) ? invoice.payments : [];
+  const summary = calculateInvoicePaymentSummary(invoice.total, [...existingPayments, { amount: draft.amount }]);
+  const { error: updateError } = await supabase
+    .from("invoices")
+    .update({ payment_status: summary.paymentStatus })
+    .eq("id", invoiceId);
+
+  if (updateError) {
+    paymentRedirect(invoiceId, "error", updateError.message);
+  }
+
+  paymentRedirect(invoiceId, "success", "Payment recorded.");
 }

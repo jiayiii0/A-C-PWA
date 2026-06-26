@@ -7,6 +7,20 @@ type InvoiceDraftInput = {
   issuedDate: string;
 };
 
+type PaymentAmount = {
+  amount: number | string;
+};
+
+export type InvoicePaymentStatus = "paid" | "unpaid" | "partial";
+export type PaymentMethod = "cash" | "bank_transfer" | "duitnow" | "tng_ewallet";
+
+type PaymentDraftInput = {
+  invoiceId: string;
+  amount: number | string;
+  method: PaymentMethod;
+  notes?: string | null;
+};
+
 export function getNextInvoiceNumber(existingNumbers: string[], year = new Date().getFullYear()) {
   const prefix = `HA-${year}-`;
   const latest = existingNumbers
@@ -21,6 +35,33 @@ export function getNextInvoiceNumber(existingNumbers: string[], year = new Date(
 function amount(value: number | string | undefined) {
   const parsed = Number(value ?? 0);
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+export function calculateInvoicePaymentSummary(totalValue: number | string, payments: PaymentAmount[]) {
+  const total = amount(totalValue);
+  const paidAmount = payments.reduce((sum, payment) => sum + amount(payment.amount), 0);
+  const balanceDue = Math.max(total - paidAmount, 0);
+  const paymentStatus: InvoicePaymentStatus = balanceDue <= 0 ? "paid" : paidAmount > 0 ? "partial" : "unpaid";
+
+  return {
+    paidAmount,
+    balanceDue,
+    paymentStatus
+  };
+}
+
+export function buildPaymentDraft(input: PaymentDraftInput) {
+  const paymentAmount = amount(input.amount);
+  if (paymentAmount <= 0) {
+    throw new Error("Payment amount must be greater than zero.");
+  }
+
+  return {
+    invoice_id: input.invoiceId,
+    amount: paymentAmount,
+    method: input.method,
+    notes: input.notes?.trim() || null
+  };
 }
 
 export function buildInvoiceDraft(input: InvoiceDraftInput) {

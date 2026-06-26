@@ -109,24 +109,36 @@ export const invoices: Invoice[] = [
     id: "inv-301",
     invoiceNumber: "HA-2026-0018",
     customer: "Leong Family",
+    subtotal: 240,
+    discount: 0,
     total: 240,
     status: "paid",
+    paidAmount: 240,
+    balanceDue: 0,
     issuedDate: "2026-06-12"
   },
   {
     id: "inv-302",
     invoiceNumber: "HA-2026-0019",
     customer: "Bright Dental Studio",
+    subtotal: 680,
+    discount: 0,
     total: 680,
     status: "partial",
+    paidAmount: 300,
+    balanceDue: 380,
     issuedDate: "2026-06-18"
   },
   {
     id: "inv-303",
     invoiceNumber: "HA-2026-0020",
     customer: "Maya Tan",
+    subtotal: 180,
+    discount: 0,
     total: 180,
     status: "unpaid",
+    paidAmount: 0,
+    balanceDue: 180,
     issuedDate: "2026-06-24"
   }
 ];

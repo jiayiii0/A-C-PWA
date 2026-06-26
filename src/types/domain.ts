@@ -44,7 +44,11 @@ export type Invoice = {
   id: string;
   invoiceNumber: string;
   customer: string;
+  subtotal: number;
+  discount: number;
   total: number;
   status: "paid" | "unpaid" | "partial";
+  paidAmount: number;
+  balanceDue: number;
   issuedDate: string;
 };

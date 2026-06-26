@@ -71,4 +71,6 @@ Customer creation includes server-side validation and posts to Supabase when con
 
 Technicians can now save job status updates and completed service records, including before/after image upload paths for the `service-photos` bucket.
 
-The next development step is adding invoice generation after completed jobs and full create/edit flows for contracts, invoices, and payments.
+Completed jobs can generate invoices, invoices can be printed or saved as PDF through the browser, and owner users can record invoice payments with live paid and outstanding balances.
+
+The next development step is adding full create/edit flows for contracts, schedules, jobs, and reports.

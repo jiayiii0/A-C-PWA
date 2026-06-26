@@ -9,15 +9,17 @@ import { jobTone, labelize, money } from "@/lib/utils";
 
 export default async function DashboardPage() {
   const [todayJobs, contracts, invoices] = await Promise.all([getTodayJobs(), getContracts(), getInvoices()]);
-  const pendingPayments = invoices.filter((invoice) => invoice.status !== "paid");
+  const pendingPayments = invoices.filter((invoice) => invoice.balanceDue > 0);
+  const outstandingTotal = pendingPayments.reduce((sum, invoice) => sum + invoice.balanceDue, 0);
+  const paidTotal = invoices.reduce((sum, invoice) => sum + invoice.paidAmount, 0);
 
   return (
     <AppShell>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard label="Today's jobs" value={String(todayJobs.length)} helper="2 technicians scheduled" icon={Wrench} accent="blue" />
         <MetricCard label="Upcoming services" value="2" helper="Within the next 7 days" icon={CalendarPlus} accent="cyan" />
-        <MetricCard label="Pending payments" value={String(pendingPayments.length)} helper={money(860) + " to collect"} icon={CreditCard} accent="amber" />
-        <MetricCard label="Monthly revenue" value={money(12840)} helper="June confirmed invoices" icon={DollarSign} accent="green" />
+        <MetricCard label="Pending payments" value={String(pendingPayments.length)} helper={money(outstandingTotal) + " to collect"} icon={CreditCard} accent="amber" />
+        <MetricCard label="Monthly revenue" value={money(paidTotal)} helper="Collected invoice payments" icon={DollarSign} accent="green" />
       </div>
 
       <div className="mt-6 grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">

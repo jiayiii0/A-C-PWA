@@ -1,4 +1,5 @@
 import { Contract, Customer, Invoice, Job, JobStatus } from "@/types/domain";
+import { calculateInvoicePaymentSummary } from "@/lib/invoices";
 
 type ContractStatusRow = "active" | "expiring_soon" | "expired";
 type PaymentStatusRow = "paid" | "unpaid" | "partial";
@@ -43,10 +44,13 @@ export type ContractRow = {
 export type InvoiceRow = {
   id: string;
   invoice_number: string;
+  subtotal: number | string;
+  discount: number | string;
   total: number | string;
   payment_status: PaymentStatusRow;
   issued_date: string;
   customers?: Relation<{ name: string }>;
+  payments?: Array<{ amount: number | string }> | null;
 };
 
 const customerContractStatusLabels: Record<ContractStatusRow, Customer["contractStatus"]> = {
@@ -127,13 +131,19 @@ export function mapContractRow(row: ContractRow): Contract {
 
 export function mapInvoiceRow(row: InvoiceRow): Invoice {
   const customer = relationOne(row.customers);
+  const total = numberValue(row.total);
+  const paymentSummary = calculateInvoicePaymentSummary(total, row.payments ?? []);
 
   return {
     id: row.id,
     invoiceNumber: row.invoice_number,
     customer: customer?.name ?? "Unknown customer",
-    total: numberValue(row.total),
-    status: row.payment_status,
+    subtotal: numberValue(row.subtotal),
+    discount: numberValue(row.discount),
+    total,
+    status: paymentSummary.paymentStatus,
+    paidAmount: paymentSummary.paidAmount,
+    balanceDue: paymentSummary.balanceDue,
     issuedDate: row.issued_date
   };
 }

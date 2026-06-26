@@ -84,7 +84,7 @@ export async function getInvoices() {
     supabase
       ? supabase
           .from("invoices")
-          .select("id,invoice_number,total,payment_status,issued_date,customers(name)")
+          .select("id,invoice_number,subtotal,discount,total,payment_status,issued_date,customers(name),payments(amount)")
           .order("issued_date", { ascending: false })
       : Promise.resolve({ data: null, error: null }),
     []
