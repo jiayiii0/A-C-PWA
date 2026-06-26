@@ -4,6 +4,7 @@ import { AppShell } from "@/components/app-shell";
 import { fieldClass, FormField } from "@/components/form-field";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
+import { generateInvoiceForJobAction } from "@/app/invoices/actions";
 import { saveServiceRecordAction } from "@/app/jobs/[id]/actions";
 import { buildWhatsAppUrl } from "@/lib/business-rules";
 import { getJobById } from "@/lib/data";
@@ -13,6 +14,7 @@ export default async function JobDetailPage({ params, searchParams }: { params: 
   const job = await getJobById(params.id);
   const message = `Hi ${job.customer}, this is Housely A/C about your ${labelize(job.serviceType)} service scheduled on ${job.date} at ${job.time}.`;
   const action = saveServiceRecordAction.bind(null, params.id);
+  const invoiceAction = generateInvoiceForJobAction.bind(null, params.id);
 
   return (
     <AppShell>
@@ -27,6 +29,19 @@ export default async function JobDetailPage({ params, searchParams }: { params: 
               <ActionButton href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(job.address)}`} icon={MapPin}>Navigate</ActionButton>
             </div>
           </div>
+        </SectionCard>
+        <SectionCard title="Invoice" eyebrow="Billing">
+          <form action={invoiceAction} className="grid gap-4">
+            <p className="text-sm leading-6 text-muted">
+              Generate an invoice after the job is marked completed. The invoice can be printed or saved as PDF from the browser.
+            </p>
+            <FormField label="Discount">
+              <input className={fieldClass} name="discount" type="number" min="0" step="0.01" placeholder="0" />
+            </FormField>
+            <button type="submit" className="focus-ring inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-5 py-3 font-bold text-white shadow-lg shadow-primary/20 hover:bg-blue-700">
+              Generate invoice
+            </button>
+          </form>
         </SectionCard>
         <SectionCard title="Service record" eyebrow="Technician update">
           {searchParams?.error ? (
