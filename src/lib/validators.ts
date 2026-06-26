@@ -11,6 +11,15 @@ export type CustomerValidationResult =
   | { ok: true; data: CustomerInput }
   | { ok: false; errors: string[] };
 
+type LoginInput = {
+  email: string;
+  password: string;
+};
+
+export type LoginValidationResult =
+  | { ok: true; data: LoginInput }
+  | { ok: false; errors: string[] };
+
 function text(value: FormDataEntryValue | string | null) {
   return String(value ?? "").trim();
 }
@@ -30,6 +39,19 @@ export function validateCustomerInput(input: Record<string, FormDataEntryValue |
   if (!data.name) errors.push("Customer name is required.");
   if (!data.phone) errors.push("Phone is required.");
   if (!data.address) errors.push("Address is required.");
+
+  return errors.length ? { ok: false, errors } : { ok: true, data };
+}
+
+export function validateLoginInput(input: Record<string, FormDataEntryValue | string | null>): LoginValidationResult {
+  const data: LoginInput = {
+    email: text(input.email).toLowerCase(),
+    password: text(input.password)
+  };
+  const errors: string[] = [];
+
+  if (!data.email) errors.push("Email is required.");
+  if (!data.password) errors.push("Password is required.");
 
   return errors.length ? { ok: false, errors } : { ok: true, data };
 }

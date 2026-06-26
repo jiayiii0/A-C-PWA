@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createServerSupabaseClient } from "@/lib/supabase-server";
 import { validateCustomerInput } from "@/lib/validators";
 
 export async function createCustomerAction(formData: FormData) {
@@ -18,6 +18,7 @@ export async function createCustomerAction(formData: FormData) {
     redirect(`/customers/new?error=${encodeURIComponent(result.errors.join(" "))}`);
   }
 
+  const supabase = createServerSupabaseClient();
   if (!supabase) {
     redirect(`/customers/new?error=${encodeURIComponent("Supabase is not configured yet. Add environment variables to enable saving.")}`);
   }

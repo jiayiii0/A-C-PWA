@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToastStack } from "@/components/toast-stack";
+import { signOutAction } from "@/app/login/actions";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -85,9 +86,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Link href="/dashboard" className="focus-ring rounded-2xl border border-line bg-white p-3 text-muted hover:text-primary" aria-label="Home">
                 <Home className="h-5 w-5" />
               </Link>
-              <Link href="/login" className="focus-ring rounded-2xl border border-line bg-white p-3 text-muted hover:text-danger" aria-label="Logout">
-                <LogOut className="h-5 w-5" />
-              </Link>
+              <form action={signOutAction}>
+                <button className="focus-ring rounded-2xl border border-line bg-white p-3 text-muted hover:text-danger" aria-label="Logout" type="submit">
+                  <LogOut className="h-5 w-5" />
+                </button>
+              </form>
             </div>
           </div>
         </header>

@@ -42,6 +42,13 @@ Run these SQL files in order from the Supabase SQL editor:
 
 Create a Storage bucket named `service-photos` for before and after photos. Keep it private and expose images through authenticated signed URLs.
 
+Create Supabase Auth users for the owner and technicians, then add matching rows in `public.users` with roles:
+
+- `admin` for the owner
+- `technician` for field workers
+
+When Supabase environment variables are configured, middleware protects internal app pages and redirects unsigned users to `/login`. When the variables are missing, the app stays open with demo data so UI review and local builds still work.
+
 ## PWA installation
 
 Android Chrome: open the site, tap the install prompt or menu, then tap **Add to Home screen**.
@@ -62,4 +69,4 @@ The app now uses a Supabase-ready data layer. When Supabase environment variable
 
 Customer creation includes server-side validation and posts to Supabase when configured. Job and technician screens build WhatsApp website links from customer phone data with prefilled service messages.
 
-The next development step is adding authenticated session handling, protected routes, Storage uploads for before/after photos, and full create/edit flows for jobs, contracts, invoices, and service records.
+The next development step is adding Storage uploads for before/after photos and full create/edit flows for jobs, contracts, invoices, and service records.

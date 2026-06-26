@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateCustomerInput } from "@/lib/validators";
+import { validateCustomerInput, validateLoginInput } from "@/lib/validators";
 
 describe("customer form validation", () => {
   it("accepts a complete customer payload", () => {
@@ -38,5 +38,22 @@ describe("customer form validation", () => {
     expect(result.ok).toBe(false);
     if (result.ok) throw new Error("Expected customer validation to fail.");
     expect(result.errors).toEqual(["Customer name is required.", "Phone is required.", "Address is required."]);
+  });
+});
+
+describe("login form validation", () => {
+  it("accepts valid login credentials", () => {
+    expect(validateLoginInput({ email: "owner@housely-ac.com", password: "secret123" })).toEqual({
+      ok: true,
+      data: { email: "owner@housely-ac.com", password: "secret123" }
+    });
+  });
+
+  it("rejects missing login credentials", () => {
+    const result = validateLoginInput({ email: "", password: "" });
+
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error("Expected login validation to fail.");
+    expect(result.errors).toEqual(["Email is required.", "Password is required."]);
   });
 });
