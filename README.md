@@ -58,4 +58,8 @@ The PWA caches core pages only. Offline database editing is intentionally not en
 
 ## Current implementation notes
 
-The UI currently uses realistic mock data while the Supabase schema, RLS policies, and client wiring are prepared. The next development step is replacing mock data calls with authenticated Supabase queries and mutations.
+The app now uses a Supabase-ready data layer. When Supabase environment variables are configured, list pages read from Supabase; otherwise they fall back to realistic demo data so the PWA still builds and can be reviewed.
+
+Customer creation includes server-side validation and posts to Supabase when configured. Job and technician screens build WhatsApp website links from customer phone data with prefilled service messages.
+
+The next development step is adding authenticated session handling, protected routes, Storage uploads for before/after photos, and full create/edit flows for jobs, contracts, invoices, and service records.

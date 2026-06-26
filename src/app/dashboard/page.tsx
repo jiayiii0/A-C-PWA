@@ -4,11 +4,11 @@ import { AppShell } from "@/components/app-shell";
 import { MetricCard } from "@/components/metric-card";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { contracts, invoices, jobs } from "@/lib/mock-data";
+import { getContracts, getInvoices, getTodayJobs } from "@/lib/data";
 import { jobTone, labelize, money } from "@/lib/utils";
 
-export default function DashboardPage() {
-  const todayJobs = jobs.filter((job) => job.date === "2026-06-26");
+export default async function DashboardPage() {
+  const [todayJobs, contracts, invoices] = await Promise.all([getTodayJobs(), getContracts(), getInvoices()]);
   const pendingPayments = invoices.filter((invoice) => invoice.status !== "paid");
 
   return (

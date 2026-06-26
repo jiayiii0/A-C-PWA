@@ -17,3 +17,9 @@ export function isContractExpiringSoon(endDate: string, today: string, days = 30
   const diffDays = Math.ceil((end - now) / 86_400_000);
   return diffDays >= 0 && diffDays <= days;
 }
+
+export function buildWhatsAppUrl(phone: string, message?: string) {
+  const cleaned = phone.replace(/\D/g, "");
+  const query = message ? `?text=${encodeURIComponent(message)}` : "";
+  return `https://wa.me/${cleaned}${query}`;
+}

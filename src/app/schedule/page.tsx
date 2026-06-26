@@ -4,10 +4,12 @@ import { ActionButton } from "@/components/action-button";
 import { AppShell } from "@/components/app-shell";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { jobs, technicians } from "@/lib/mock-data";
+import { getJobs, getTechnicians } from "@/lib/data";
 import { jobTone, labelize, money } from "@/lib/utils";
 
-export default function SchedulePage() {
+export default async function SchedulePage() {
+  const [jobs, technicians] = await Promise.all([getJobs(), getTechnicians()]);
+
   return (
     <AppShell>
       <SectionCard title="Schedule" eyebrow="Calendar" action={<ActionButton href="/schedule" icon={Plus}>Create job</ActionButton>}>

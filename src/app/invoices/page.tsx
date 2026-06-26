@@ -2,10 +2,12 @@ import { Printer, ReceiptText } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { invoices } from "@/lib/mock-data";
+import { getInvoices } from "@/lib/data";
 import { money } from "@/lib/utils";
 
-export default function InvoicesPage() {
+export default async function InvoicesPage() {
+  const invoices = await getInvoices();
+
   return (
     <AppShell>
       <SectionCard title="Invoices and payments" eyebrow="Finance">

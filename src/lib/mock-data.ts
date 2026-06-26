@@ -43,6 +43,7 @@ export const jobs: Job[] = [
   {
     id: "job-101",
     customer: "Leong Family",
+    customerWhatsapp: "60127789011",
     technician: "Alicia",
     serviceType: "normal_cleaning",
     date: "2026-06-26",
@@ -55,6 +56,7 @@ export const jobs: Job[] = [
   {
     id: "job-102",
     customer: "Bright Dental Studio",
+    customerWhatsapp: "60322881140",
     technician: "Ben",
     serviceType: "chemical_wash",
     date: "2026-06-26",
@@ -67,6 +69,7 @@ export const jobs: Job[] = [
   {
     id: "job-103",
     customer: "Maya Tan",
+    customerWhatsapp: "60163418820",
     technician: "Alicia",
     serviceType: "repair",
     date: "2026-06-27",

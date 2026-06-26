@@ -4,11 +4,13 @@ import { AppShell } from "@/components/app-shell";
 import { fieldClass, FormField } from "@/components/form-field";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { jobs } from "@/lib/mock-data";
+import { buildWhatsAppUrl } from "@/lib/business-rules";
+import { getJobById } from "@/lib/data";
 import { jobTone, labelize, money } from "@/lib/utils";
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
-  const job = jobs.find((item) => item.id === params.id) ?? jobs[0];
+export default async function JobDetailPage({ params }: { params: { id: string } }) {
+  const job = await getJobById(params.id);
+  const message = `Hi ${job.customer}, this is Housely A/C about your ${labelize(job.serviceType)} service scheduled on ${job.date} at ${job.time}.`;
 
   return (
     <AppShell>
@@ -19,7 +21,7 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
             <p className="text-sm leading-6 text-muted">{job.date} at {job.time} · Assigned to {job.technician} · {money(job.price)}</p>
             <div className="rounded-2xl bg-slate-50 p-4 text-sm text-muted"><MapPin className="mb-2 h-5 w-5 text-primary" />{job.address}</div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <ActionButton href="https://wa.me/60127789011" icon={MessageCircle} variant="secondary">WhatsApp customer</ActionButton>
+              <ActionButton href={buildWhatsAppUrl(job.customerWhatsapp, message)} icon={MessageCircle} variant="secondary">WhatsApp customer</ActionButton>
               <ActionButton href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(job.address)}`} icon={MapPin}>Navigate</ActionButton>
             </div>
           </div>

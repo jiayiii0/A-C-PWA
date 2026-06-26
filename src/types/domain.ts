@@ -18,6 +18,7 @@ export type Customer = {
 export type Job = {
   id: string;
   customer: string;
+  customerWhatsapp: string;
   technician: "Alicia" | "Ben";
   serviceType: string;
   date: string;

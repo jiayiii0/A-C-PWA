@@ -2,11 +2,13 @@ import { CalendarClock, RotateCcw } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { contracts } from "@/lib/mock-data";
+import { getContracts } from "@/lib/data";
 import { getNextContractServiceDate } from "@/lib/business-rules";
 import { money } from "@/lib/utils";
 
-export default function ContractsPage() {
+export default async function ContractsPage() {
+  const contracts = await getContracts();
+
   return (
     <AppShell>
       <div className="grid gap-5 md:grid-cols-2">

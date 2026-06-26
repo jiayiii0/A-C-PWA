@@ -3,11 +3,11 @@ import { ActionButton } from "@/components/action-button";
 import { AppShell } from "@/components/app-shell";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { customers, jobs } from "@/lib/mock-data";
+import { getCustomerById, getJobs } from "@/lib/data";
 import { jobTone, labelize } from "@/lib/utils";
 
-export default function CustomerDetailPage({ params }: { params: { id: string } }) {
-  const customer = customers.find((item) => item.id === params.id) ?? customers[0];
+export default async function CustomerDetailPage({ params }: { params: { id: string } }) {
+  const [customer, jobs] = await Promise.all([getCustomerById(params.id), getJobs()]);
   const customerJobs = jobs.filter((job) => job.customer === customer.name);
 
   return (

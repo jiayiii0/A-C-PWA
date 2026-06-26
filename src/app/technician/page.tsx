@@ -2,11 +2,12 @@ import Link from "next/link";
 import { MapPin, MessageCircle, Wrench } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
 import { StatusBadge } from "@/components/status-badge";
-import { jobs } from "@/lib/mock-data";
+import { buildWhatsAppUrl } from "@/lib/business-rules";
+import { getTodayJobs } from "@/lib/data";
 import { jobTone, labelize } from "@/lib/utils";
 
-export default function TechnicianPage() {
-  const today = jobs.filter((job) => job.date === "2026-06-26");
+export default async function TechnicianPage() {
+  const today = await getTodayJobs();
 
   return (
     <AppShell>
@@ -23,7 +24,7 @@ export default function TechnicianPage() {
             <p className="mt-4 text-sm leading-6 text-muted">{job.address}</p>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               <Link className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-3 font-bold text-white" href={`/jobs/${job.id}`}><Wrench className="h-5 w-5" /> Open job</Link>
-              <Link className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-cyan/10 px-4 py-3 font-bold text-cyan" href="https://wa.me/60127789011"><MessageCircle className="h-5 w-5" /> WhatsApp</Link>
+              <Link className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-cyan/10 px-4 py-3 font-bold text-cyan" href={buildWhatsAppUrl(job.customerWhatsapp, `Hi ${job.customer}, this is Housely A/C. I am on the way for your ${labelize(job.serviceType)} service today at ${job.time}.`)}><MessageCircle className="h-5 w-5" /> WhatsApp</Link>
               <Link className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-line bg-white px-4 py-3 font-bold text-ink" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(job.address)}`}><MapPin className="h-5 w-5" /> Navigate</Link>
             </div>
           </section>

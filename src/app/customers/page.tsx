@@ -4,9 +4,11 @@ import { ActionButton } from "@/components/action-button";
 import { AppShell } from "@/components/app-shell";
 import { SectionCard } from "@/components/section-card";
 import { StatusBadge } from "@/components/status-badge";
-import { customers } from "@/lib/mock-data";
+import { getCustomers } from "@/lib/data";
 
-export default function CustomersPage() {
+export default async function CustomersPage() {
+  const customers = await getCustomers();
+
   return (
     <AppShell>
       <SectionCard title="Customers" eyebrow="CRM" action={<ActionButton href="/customers/new" icon={Plus}>Add customer</ActionButton>}>
