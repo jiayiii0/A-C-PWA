@@ -1,0 +1,32 @@
+{
+  "name": "Housely A/C CoolCare Service Manager",
+  "short_name": "Housely A/C",
+  "description": "Internal service management PWA for Housely A/C.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F9FBFF",
+  "theme_color": "#F9FBFF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Today&apos;s Jobs",
+      "short_name": "Jobs",
+      "url": "/technician"
+    },
+    {
+      "name": "Schedule",
+      "short_name": "Schedule",
+      "url": "/schedule"
+    }
+  ]
+}
