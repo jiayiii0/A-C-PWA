@@ -40,7 +40,7 @@ Run these SQL files in order from the Supabase SQL editor:
 2. `supabase/rls-policies.sql`
 3. `supabase/seed.sql`
 
-Create a Storage bucket named `service-photos` for before and after photos. Keep it private and expose images through authenticated signed URLs.
+The RLS file creates a private Storage bucket named `service-photos` for before and after photos. Keep it private and expose images through authenticated access or signed URLs.
 
 Create Supabase Auth users for the owner and technicians, then add matching rows in `public.users` with roles:
 
@@ -69,4 +69,6 @@ The app now uses a Supabase-ready data layer. When Supabase environment variable
 
 Customer creation includes server-side validation and posts to Supabase when configured. Job and technician screens build WhatsApp website links from customer phone data with prefilled service messages.
 
-The next development step is adding Storage uploads for before/after photos and full create/edit flows for jobs, contracts, invoices, and service records.
+Technicians can now save job status updates and completed service records, including before/after image upload paths for the `service-photos` bucket.
+
+The next development step is adding invoice generation after completed jobs and full create/edit flows for contracts, invoices, and payments.

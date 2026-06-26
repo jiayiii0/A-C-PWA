@@ -81,3 +81,20 @@ with check (public.current_role() = 'admin');
 create policy "admins manage payments" on public.payments
 for all using (public.current_role() = 'admin')
 with check (public.current_role() = 'admin');
+
+insert into storage.buckets (id, name, public)
+values ('service-photos', 'service-photos', false)
+on conflict (id) do nothing;
+
+create policy "authenticated users upload service photos" on storage.objects
+for insert to authenticated
+with check (bucket_id = 'service-photos');
+
+create policy "authenticated users read service photos" on storage.objects
+for select to authenticated
+using (bucket_id = 'service-photos');
+
+create policy "authenticated users update service photos" on storage.objects
+for update to authenticated
+using (bucket_id = 'service-photos')
+with check (bucket_id = 'service-photos');

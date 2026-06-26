@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateCustomerInput, validateLoginInput } from "@/lib/validators";
+import { validateCustomerInput, validateLoginInput, validateServiceRecordInput } from "@/lib/validators";
 
 describe("customer form validation", () => {
   it("accepts a complete customer payload", () => {
@@ -55,5 +55,42 @@ describe("login form validation", () => {
     expect(result.ok).toBe(false);
     if (result.ok) throw new Error("Expected login validation to fail.");
     expect(result.errors).toEqual(["Email is required.", "Password is required."]);
+  });
+});
+
+describe("service record validation", () => {
+  it("accepts a completed service record payload", () => {
+    expect(
+      validateServiceRecordInput({
+        status: "completed",
+        remarks: "Cleaned three indoor units and checked drainage.",
+        parts_used: "Drain hose",
+        total_price: "240",
+        warranty_days: "30"
+      })
+    ).toEqual({
+      ok: true,
+      data: {
+        status: "completed",
+        remarks: "Cleaned three indoor units and checked drainage.",
+        parts_used: "Drain hose",
+        total_price: 240,
+        warranty_days: 30
+      }
+    });
+  });
+
+  it("requires remarks when marking a job completed", () => {
+    const result = validateServiceRecordInput({
+      status: "completed",
+      remarks: "",
+      parts_used: "",
+      total_price: "",
+      warranty_days: ""
+    });
+
+    expect(result.ok).toBe(false);
+    if (result.ok) throw new Error("Expected service record validation to fail.");
+    expect(result.errors).toEqual(["Service remarks are required before completing a job."]);
   });
 });
