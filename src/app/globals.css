@@ -20,8 +20,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(circle at top left, rgba(6, 182, 212, 0.10), transparent 30rem),
-    linear-gradient(180deg, #f9fbff 0%, #f8fafc 46%, #ffffff 100%);
+    linear-gradient(180deg, #f9fbff 0%, #f6f9fd 42%, #ffffff 100%);
   color: #0f172a;
 }
 
@@ -34,7 +33,7 @@ textarea {
 
 @layer components {
   .glass-card {
-    @apply rounded-2xl border border-line/80 bg-white/90 shadow-card backdrop-blur;
+    @apply rounded-2xl border border-line/80 bg-white shadow-card;
   }
 
   .focus-ring {

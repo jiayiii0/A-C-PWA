@@ -16,8 +16,8 @@ const config: Config = {
         danger: "#EF4444"
       },
       boxShadow: {
-        soft: "0 18px 50px rgba(15, 23, 42, 0.08)",
-        card: "0 10px 30px rgba(37, 99, 235, 0.08)"
+        soft: "0 20px 55px rgba(15, 23, 42, 0.08)",
+        card: "0 14px 38px rgba(15, 23, 42, 0.06)"
       },
       borderRadius: {
         "2xl": "1.25rem"

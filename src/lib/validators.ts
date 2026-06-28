@@ -32,6 +32,22 @@ export type ServiceRecordValidationResult =
   | { ok: true; data: ServiceRecordInput }
   | { ok: false; errors: string[] };
 
+type JobInput = {
+  customer_id: string;
+  technician_name: string;
+  service_type: string;
+  scheduled_date: string;
+  scheduled_time: string;
+  status: "pending" | "confirmed";
+  address: string;
+  price: number;
+  notes: string;
+};
+
+export type JobValidationResult =
+  | { ok: true; data: JobInput }
+  | { ok: false; errors: string[] };
+
 function text(value: FormDataEntryValue | string | null) {
   return String(value ?? "").trim();
 }
@@ -93,6 +109,34 @@ export function validateServiceRecordInput(input: Record<string, FormDataEntryVa
   if (!Number.isInteger(data.warranty_days) || data.warranty_days < 0) {
     errors.push("Warranty days must be a whole number.");
   }
+
+  return errors.length ? { ok: false, errors } : { ok: true, data };
+}
+
+const serviceTypes = new Set(["normal_cleaning", "chemical_wash", "repair", "diagnosis", "gas_top_up", "installation"]);
+
+export function validateJobInput(input: Record<string, FormDataEntryValue | string | null>): JobValidationResult {
+  const status = text(input.status);
+  const serviceType = text(input.service_type);
+  const data: JobInput = {
+    customer_id: text(input.customer_id),
+    technician_name: text(input.technician_name),
+    service_type: serviceTypes.has(serviceType) ? serviceType : "normal_cleaning",
+    scheduled_date: text(input.scheduled_date),
+    scheduled_time: text(input.scheduled_time),
+    status: status === "pending" ? "pending" : "confirmed",
+    address: text(input.address),
+    price: numberInput(input.price),
+    notes: text(input.notes)
+  };
+  const errors: string[] = [];
+
+  if (!data.customer_id) errors.push("Customer is required.");
+  if (!data.technician_name) errors.push("Technician is required.");
+  if (!data.scheduled_date) errors.push("Schedule date is required.");
+  if (!data.scheduled_time) errors.push("Schedule time is required.");
+  if (!data.address) errors.push("Job address is required.");
+  if (!Number.isFinite(data.price) || data.price < 0) errors.push("Price must be a valid amount.");
 
   return errors.length ? { ok: false, errors } : { ok: true, data };
 }

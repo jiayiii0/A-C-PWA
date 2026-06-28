@@ -17,7 +17,7 @@ function DispatchSummary({ selectedDay, jobs }: { selectedDay?: ScheduleDay; job
   const totalValue = jobs.reduce((sum, job) => sum + job.price, 0);
 
   return (
-    <SectionCard title="Daily dispatch" eyebrow="Schedule" action={<ActionButton href="/schedule" icon={Plus}>Create job</ActionButton>}>
+    <SectionCard title="Daily dispatch" eyebrow="Schedule" action={<ActionButton href="/jobs/new" icon={Plus}>Create job</ActionButton>}>
       <div className="rounded-2xl border border-line bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>

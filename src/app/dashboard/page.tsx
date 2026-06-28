@@ -42,7 +42,7 @@ export default async function DashboardPage() {
         <SectionCard title="Quick actions" eyebrow="Owner shortcuts">
           <div className="grid gap-3">
             <ActionButton href="/customers/new" icon={Users}>Add customer</ActionButton>
-            <ActionButton href="/schedule" icon={Plus} variant="secondary">Add job</ActionButton>
+            <ActionButton href="/jobs/new" icon={Plus} variant="secondary">Add job</ActionButton>
             <ActionButton href="/contracts" icon={ClipboardList} variant="plain">View contracts</ActionButton>
           </div>
           <div className="mt-5 rounded-2xl bg-slate-50 p-4">
