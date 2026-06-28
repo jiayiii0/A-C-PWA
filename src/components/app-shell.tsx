@@ -15,7 +15,6 @@ import {
   Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { ToastStack } from "@/components/toast-stack";
 import { signOutAction } from "@/app/login/actions";
 
 const navItems = [
@@ -67,10 +66,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-line bg-slate-50 p-4">
-          <p className="text-sm font-bold">Today&apos;s team</p>
-          <p className="mt-1 text-sm text-muted">Alicia and Ben are scheduled for 2 active jobs.</p>
-        </div>
       </aside>
 
       <main className="pb-24 lg:ml-72 lg:pb-10">
@@ -117,8 +112,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </div>
       </nav>
-
-      <ToastStack />
     </div>
   );
 }

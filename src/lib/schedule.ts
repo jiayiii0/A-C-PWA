@@ -37,7 +37,7 @@ export function getScheduleCapacity(jobs: Job[]): ScheduleCapacity {
   if (jobs.length <= 2) {
     return {
       label: "Light route",
-      helper: "Easy day for two technicians.",
+      helper: "Easy day with room for urgent calls.",
       recommendedJobs: "1-2 jobs",
       tone: "green"
     };
@@ -54,7 +54,7 @@ export function getScheduleCapacity(jobs: Job[]): ScheduleCapacity {
 
   return {
     label: "Overloaded",
-    helper: "Too many stops for two workers. Move lower-priority jobs.",
+    helper: "Too many stops for one day. Move lower-priority jobs.",
     recommendedJobs: "Move 1+ jobs",
     tone: "red"
   };
