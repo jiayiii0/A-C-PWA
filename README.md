@@ -67,7 +67,7 @@ The PWA caches core pages only. Offline database editing is intentionally not en
 
 The app now uses a Supabase-ready data layer. When Supabase environment variables are configured, list pages read from Supabase; otherwise they fall back to realistic demo data so the PWA still builds and can be reviewed.
 
-Customer creation includes server-side validation and posts to Supabase when configured. Job and technician screens build WhatsApp website links from customer phone data with prefilled service messages.
+Customer creation includes server-side validation and posts to Supabase when configured. The schedule and job screens build WhatsApp website links from customer phone data with prefilled service messages.
 
 Technicians can now save job status updates and completed service records, including before/after image upload paths for the `service-photos` bucket.
 

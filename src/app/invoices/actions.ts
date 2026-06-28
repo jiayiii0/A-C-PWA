@@ -6,9 +6,9 @@ import {
   buildInvoiceDraft,
   buildPaymentDraft,
   calculateInvoicePaymentSummary,
-  getNextInvoiceNumber,
-  PaymentMethod
+  getNextInvoiceNumber
 } from "@/lib/invoices";
+import type { PaymentMethod } from "@/lib/invoices";
 
 function invoiceError(jobId: string, message: string): never {
   redirect(`/jobs/${jobId}?error=${encodeURIComponent(message)}`);

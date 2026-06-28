@@ -12,8 +12,7 @@ import {
   LogOut,
   Settings,
   Snowflake,
-  Users,
-  Wrench
+  Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ToastStack } from "@/components/toast-stack";
@@ -24,7 +23,6 @@ const navItems = [
   { href: "/customers", label: "Customers", icon: Users },
   { href: "/contracts", label: "Contracts", icon: ClipboardList },
   { href: "/schedule", label: "Schedule", icon: CalendarDays },
-  { href: "/technician", label: "Technician", icon: Wrench },
   { href: "/invoices", label: "Invoices", icon: FileText },
   { href: "/reports", label: "Reports", icon: BarChart3 },
   { href: "/settings", label: "Settings", icon: Settings }
