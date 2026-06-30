@@ -24,10 +24,10 @@ export function MetricCard({
     <div className="glass-card p-5 transition hover:-translate-y-0.5 hover:shadow-soft">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-muted">{label}</p>
-          <p className="mt-3 text-3xl font-bold tracking-normal text-ink">{value}</p>
+          <p className="text-sm font-semibold text-muted">{label}</p>
+          <p className="mt-3 text-3xl font-black tracking-normal text-ink">{value}</p>
         </div>
-        <div className={`rounded-2xl p-3 ${accentClass}`}>
+        <div className={`rounded-xl p-3 ${accentClass}`}>
           <Icon className="h-5 w-5" aria-hidden="true" />
         </div>
       </div>

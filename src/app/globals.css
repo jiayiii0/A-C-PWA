@@ -4,7 +4,7 @@
 
 :root {
   color-scheme: light;
-  background: #f9fbff;
+  background: #eef4f8;
   color: #0f172a;
 }
 
@@ -19,8 +19,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    linear-gradient(180deg, #f9fbff 0%, #f6f9fd 42%, #ffffff 100%);
+  background: #eef4f8;
   color: #0f172a;
 }
 
@@ -33,7 +32,7 @@ textarea {
 
 @layer components {
   .glass-card {
-    @apply rounded-2xl border border-line/80 bg-white shadow-card;
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-card;
   }
 
   .focus-ring {

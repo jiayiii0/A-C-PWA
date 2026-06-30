@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        canvas: "#F9FBFF",
+        canvas: "#EEF4F8",
         ink: "#0F172A",
         muted: "#64748B",
         line: "#E2E8F0",
@@ -16,8 +16,8 @@ const config: Config = {
         danger: "#EF4444"
       },
       boxShadow: {
-        soft: "0 20px 55px rgba(15, 23, 42, 0.08)",
-        card: "0 14px 38px rgba(15, 23, 42, 0.06)"
+        soft: "0 18px 48px rgba(15, 23, 42, 0.10)",
+        card: "0 8px 24px rgba(15, 23, 42, 0.05)"
       },
       borderRadius: {
         "2xl": "1.25rem"
